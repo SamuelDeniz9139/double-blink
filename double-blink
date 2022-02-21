@@ -1,0 +1,41 @@
+const int buttonPin=2;
+const int ledPin=13;
+const int pinButton=4;
+int laststate1,laststate2;
+void setup() {
+  pinMode(buttonPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  pinMode(pinButton, INPUT);
+}
+void loop() {
+  int pinState=digitalRead(buttonPin);//the left one
+  int statePin=digitalRead(pinButton);//the right one
+  if(pinState==HIGH&&last1==LOW&&statePin==LOW){//left press after right
+    digitalWrite(ledPin,HIGH);
+  } else if(pinState==LOW&&last2==LOW&&statePin==HIGH){//right press after left
+    digitalWrite(ledPin,LOW);
+  } else if(pinState==HIGH&&last1==HIGH&&statePin==LOW){//left press after left
+    int eter=0;
+    while(eter<10){//flashes 10 times and stays on longer
+      digitalWrite(ledPin,HIGH);
+      delay(2000);
+      digitalWrite(ledPin,LOW);
+      delay(1000);
+      eter++;
+    }
+  } else if(pinState==LOW&&last2==HIGH&&statePin==HIGH){//right press after right
+    int nal=0;
+    while(nal<10){//flashes 10 times and stays on shorter
+      digitalWrite(ledPin,HIGH);
+      delay(1000);
+      digitalWrite(ledPin,LOW);
+      delay(2000);
+      nal++;
+    }
+  } else if(pinState==HIGH&&statePin==HIGH){//both pressed at once
+        laststate1=laststate2;//should reset both states
+  }
+  laststate1=pinState;
+  laststate2=statePin;
+  delay(20);
+}
